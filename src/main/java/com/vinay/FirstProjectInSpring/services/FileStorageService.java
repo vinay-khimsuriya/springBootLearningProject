@@ -2,73 +2,42 @@ package com.vinay.FirstProjectInSpring.services;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 @Service
 public class FileStorageService {
 
-    private final Path fileStorageLocation;
+    private final String UPLOAD_DIR = "uploads/";
 
-    public FileStorageService() {
-        this.fileStorageLocation = Paths.get("uploads/images")
-                .toAbsolutePath().normalize();
-        
-        try {
-            Files.createDirectories(this.fileStorageLocation);
-        } catch (Exception ex) {
-            throw new RuntimeException("Could not create the directory where the uploaded files will be stored.", ex);
-        }
+    public FileStorageService() throws IOException {
+        Files.createDirectories(Paths.get(UPLOAD_DIR)); // Create folder if not exists
     }
 
-    public String storeFile(MultipartFile file) {
-        // Validate file
+    public FileInfo saveFile(MultipartFile file) throws IOException {
         if (file.isEmpty()) {
-            throw new RuntimeException("File is empty");
-        }
-        
-        if (file.getSize() > 3 * 1024 * 1024) { // 3MB
-            throw new RuntimeException("File size must be less than 3MB");
+            throw new RuntimeException("File is empty!");
         }
 
-        // Generate unique filename
-        String originalFileName = file.getOriginalFilename();
-        String fileExtension = "";
-        if (originalFileName != null && originalFileName.contains(".")) {
-            fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-        }
-        String fileName = UUID.randomUUID().toString() + fileExtension;
+        String uniqueName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        Path path = Paths.get(UPLOAD_DIR + uniqueName);
+        Files.copy(file.getInputStream(), path);
 
-        try {
-            // Copy file to the target location
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
-            return fileName;
-        } catch (IOException ex) {
-            throw new RuntimeException("Could not store file " + fileName + ". Please try again!", ex);
-        }
+        return new FileInfo(uniqueName, path.toString());
     }
 
-    public byte[] loadFile(String fileName) {
-        try {
-            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
-            return Files.readAllBytes(filePath);
-        } catch (IOException ex) {
-            throw new RuntimeException("File not found " + fileName, ex);
+    public byte[] getFile(String path) throws IOException {
+        Path filePath = Paths.get(path);
+        if (!Files.exists(filePath)) {
+            throw new RuntimeException("File not found");
         }
+        return Files.readAllBytes(filePath);
     }
 
-    public void deleteFile(String fileName) {
-        try {
-            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
-            Files.deleteIfExists(filePath);
-        } catch (IOException ex) {
-            throw new RuntimeException("Could not delete file " + fileName, ex);
-        }
-    }
+    // DTO to return file info
+    public static record FileInfo(String fileName, String filePath) {}
 }

@@ -4,7 +4,6 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
@@ -36,6 +35,7 @@ public class CustomerDTO {
     )
     private String password;
 
-    // Optional image upload (max 3MB)
-    private MultipartFile image;
+    
+    private String imageName;
+    private String imagePath;
 }

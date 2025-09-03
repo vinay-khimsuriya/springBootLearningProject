@@ -13,35 +13,28 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Name is required")
-    @Pattern(regexp = "^[A-Za-z ]+$", message = "Name must contain only letters and spaces")
-    @Length(max = 50, message = "Name can be up to 50 characters only")
+    @NotBlank
+    @Pattern(regexp = "^[A-Za-z ]+$")
+    @Length(max = 50)
     private String name;
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
+    @NotBlank
+    @Email
     @Column(unique = true)
     private String email;
 
-    @NotBlank(message = "Mobile number is required")
-    @Pattern(regexp = "^[0-9]{10}$", message = "Mobile number must be 10 digits")
+    @NotBlank
+    @Pattern(regexp = "^[0-9]{10}$")
     private String mobileNumber;
 
-    @Min(value = 0, message = "Age must be positive")
+    @Min(0)
     private Integer age;
 
     private String sex;
-    
-    @NotBlank(message = "Password is required")
-    @Pattern(
-        regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$",
-        message = "Password must be at least 8 characters, include uppercase, lowercase, number, and special character"
-    )
+
+    @NotBlank
     private String password;
 
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private byte[] image; 
-    
-    private String imageName;
+    private String imageName; 
+    private String imagePath; 
 }
