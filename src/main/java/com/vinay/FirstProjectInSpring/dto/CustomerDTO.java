@@ -1,5 +1,7 @@
 package com.vinay.FirstProjectInSpring.dto;
 
+import org.hibernate.validator.constraints.Length;
+
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +27,9 @@ public class CustomerDTO {
 
     @Min(value = 0, message = "Age must be positive")
     private Integer age;
+
+    @Length(max = 50, message = "Designation can be up to 50 characters only")
+    private String designation;
 
     private String sex;
 

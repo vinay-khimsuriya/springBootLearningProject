@@ -38,6 +38,6 @@ public class Support {
     )
     private String password;
 
-    @Lob
-    private byte[] image;
+    private String imageName; 
+    private String imagePath; 
 }

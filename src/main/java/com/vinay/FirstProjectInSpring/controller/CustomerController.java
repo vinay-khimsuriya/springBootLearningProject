@@ -20,43 +20,21 @@ public class CustomerController {
 
     // ---------------- Registration ----------------
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<CustomerResponseDTO>> register(
-            @RequestBody @Valid CustomerDTO dto) {
+public ResponseEntity<ApiResponse<CustomerResponseDTO>> register(
+        @RequestBody @Valid CustomerDTO dto) {
 
-        try {
-            CustomerResponseDTO savedCustomer = service.register(dto);
+    CustomerResponseDTO savedCustomer = service.register(dto);
 
-            ApiResponse<CustomerResponseDTO> response = new ApiResponse<>(
-                    "success",
-                    HttpStatus.CREATED.value(),
-                    "Customer registered successfully!",
-                    1,
-                    savedCustomer
-            );
+    ApiResponse<CustomerResponseDTO> response = new ApiResponse<>(
+            "success",
+            HttpStatus.CREATED.value(),
+            "Customer registered successfully!",
+            1,
+            savedCustomer
+    );
 
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-
-        } catch (RuntimeException e) {
-            ApiResponse<CustomerResponseDTO> response = new ApiResponse<>(
-                    "error",
-                    HttpStatus.CONFLICT.value(),
-                    e.getMessage(),
-                    0,
-                    null
-            );
-            return new ResponseEntity<>(response, HttpStatus.CONFLICT);
-        } catch (Exception e) {
-            ApiResponse<CustomerResponseDTO> response = new ApiResponse<>(
-                    "error",
-                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    "Unexpected error: " + e.getMessage(),
-                    0,
-                    null
-            );
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    
+    return new ResponseEntity<>(response, HttpStatus.CREATED);
+}
 
     // ---------------- Login ----------------
     @PostMapping("/login")

@@ -37,5 +37,6 @@ public class SupportDTO {
     )
     private String password;
 
-    private byte[] image; 
+     private String imageName;
+    private String imagePath;
 }

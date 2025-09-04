@@ -15,7 +15,7 @@ public class FileStorageService {
     private final String UPLOAD_DIR = "uploads/";
 
     public FileStorageService() throws IOException {
-        Files.createDirectories(Paths.get(UPLOAD_DIR)); // Create folder if not exists
+        Files.createDirectories(Paths.get(UPLOAD_DIR)); 
     }
 
     public FileInfo saveFile(MultipartFile file) throws IOException {
@@ -38,6 +38,6 @@ public class FileStorageService {
         return Files.readAllBytes(filePath);
     }
 
-    // DTO to return file info
+    
     public static record FileInfo(String fileName, String filePath) {}
 }

@@ -8,9 +8,6 @@ import com.vinay.FirstProjectInSpring.security.JwtUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.vinay.FirstProjectInSpring.services.FileStorageService;
 
 @Service
 public class CustomerService {
@@ -18,10 +15,11 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final JwtUtil jwtUtil;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-    public CustomerService(CustomerRepository customerRepository, JwtUtil jwtUtil) {
+    private final FileStorageService fileStorageService;
+    public CustomerService(CustomerRepository customerRepository, JwtUtil jwtUtil, FileStorageService fileStorageService) {
         this.customerRepository = customerRepository;
         this.jwtUtil = jwtUtil;
+        this.fileStorageService = fileStorageService;
     }
 
     // ---------------- Registration ----------------
@@ -39,6 +37,7 @@ public class CustomerService {
         c.setAge(dto.getAge());
         c.setSex(dto.getSex());
         c.setPassword(encoder.encode(dto.getPassword()));
+        c.setDesignation(dto.getDesignation());
 
         
         c.setImageName(dto.getImageName()); 
@@ -52,40 +51,14 @@ public class CustomerService {
                 saved.getEmail(),
                 saved.getMobileNumber(),
                 saved.getAge(),
+                saved.getDesignation(),
                 saved.getSex(),
-                saved.getImageName()
+                saved.getImageName(),
+                saved.getImagePath()
         );
     }
 
-    @Transactional
-public CustomerResponseDTO updateCustomerImage(Long id, MultipartFile file) {
-    Customer customer = customerRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Customer not found"));
-
-    if (file == null || file.isEmpty()) {
-        throw new RuntimeException("File is empty");
-    }
-
-    // Save file using FileStorageService
-    FileStorageService.FileInfo fileInfo = fileStorageService.saveFile(file);
-
-    // Update customer
-    customer.setImageName(fileInfo.fileName());
-    customer.setImagePath(fileInfo.filePath());
-
-    Customer saved = customerRepository.save(customer);
-
-    return new CustomerResponseDTO(
-            saved.getId(),
-            saved.getName(),
-            saved.getEmail(),
-            saved.getMobileNumber(),
-            saved.getAge(),
-            saved.getSex(),
-            saved.getImageName()
-    );
-}
-
+    
 
     // ---------------- Login ----------------
     @Transactional(readOnly = true)
@@ -105,8 +78,10 @@ public CustomerResponseDTO updateCustomerImage(Long id, MultipartFile file) {
                 c.getEmail(),
                 c.getMobileNumber(),
                 c.getAge(),
+                c.getDesignation(),
                 c.getSex(),
-                c.getImageName()
+                c.getImageName(),
+                c.getImagePath()
         );
 
         return new JwtResponseDTO(token, customerData);

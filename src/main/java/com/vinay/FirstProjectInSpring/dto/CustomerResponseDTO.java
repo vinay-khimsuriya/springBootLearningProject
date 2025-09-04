@@ -1,5 +1,7 @@
 package com.vinay.FirstProjectInSpring.dto;
 
+import org.hibernate.validator.constraints.Length;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +15,8 @@ public class CustomerResponseDTO {
     private String email;
     private String mobileNumber;
     private Integer age;
+    private String designation;
     private String sex;
     private String imageName;
+    private String imagePath;
 }

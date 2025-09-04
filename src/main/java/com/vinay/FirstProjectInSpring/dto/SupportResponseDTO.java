@@ -14,4 +14,7 @@ public class SupportResponseDTO {
     private String designation;
     private Boolean availability;
     private String status;
+    private String password;
+    private String imageName;
+    private String imagePath;
 }

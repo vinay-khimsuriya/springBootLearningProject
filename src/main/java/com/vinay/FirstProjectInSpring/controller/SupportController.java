@@ -2,6 +2,9 @@ package com.vinay.FirstProjectInSpring.controller;
 
 import com.vinay.FirstProjectInSpring.dto.*;
 import com.vinay.FirstProjectInSpring.services.SupportService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,37 +19,23 @@ public class SupportController {
     }
 
    
-  @PostMapping("/register")
-public ResponseEntity<ApiResponse<SupportResponseDTO>> register(@RequestBody SupportDTO dto) {
-    try {
-        SupportResponseDTO savedSupport = service.register(dto);
+ @PostMapping("/register")
+public ResponseEntity<ApiResponse<SupportResponseDTO>> register(@RequestBody @Valid SupportDTO dto) {
+    SupportResponseDTO savedSupport = service.register(dto);
 
-        ApiResponse<SupportResponseDTO> response = new ApiResponse<>(
-                "success",
-                HttpStatus.CREATED.value(),
-                "Support agent registered successfully!",
-                1,
-                savedSupport
-        );
+    ApiResponse<SupportResponseDTO> response = new ApiResponse<>(
+            "success",
+            HttpStatus.CREATED.value(),
+            "Support agent registered successfully!",
+            1,
+            savedSupport
+    );
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
-
-    } catch (RuntimeException e) {
-        ApiResponse<SupportResponseDTO> response = new ApiResponse<>(
-                "error",
-                HttpStatus.CONFLICT.value(),
-                e.getMessage(), 
-                0,
-                null
-        );
-
-        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
-    }
+    return new ResponseEntity<>(response, HttpStatus.CREATED);
 }
 
-
- @PostMapping("/login")
-public ResponseEntity<ApiResponse<JwtSupportResponseDTO>> login(@RequestBody SupportLoginDTO dto) {
+@PostMapping("/login")
+public ResponseEntity<ApiResponse<JwtSupportResponseDTO>> login(@RequestBody @Valid SupportLoginDTO dto) {
     JwtSupportResponseDTO jwtResponse = service.login(dto);
 
     ApiResponse<JwtSupportResponseDTO> response = new ApiResponse<>(
@@ -59,3 +48,4 @@ public ResponseEntity<ApiResponse<JwtSupportResponseDTO>> login(@RequestBody Sup
     return ResponseEntity.ok(response);
 }
 }
+
