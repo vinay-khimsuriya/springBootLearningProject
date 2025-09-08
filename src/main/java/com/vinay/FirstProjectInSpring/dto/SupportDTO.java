@@ -1,6 +1,8 @@
 package com.vinay.FirstProjectInSpring.dto;
 
-import jakarta.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,10 +27,8 @@ public class SupportDTO {
     @Length(max = 50, message = "Designation can be up to 50 characters only")
     private String designation;
 
-    private Boolean availability = true;
-
-    @Pattern(regexp = "^(online|offline)$", message = "Status must be either 'online' or 'offline'")
-    private String status = "offline";
+    private Boolean status = false;      
+    private Boolean isAvailable = false; 
 
     @NotBlank(message = "Password is required")
     @Pattern(
@@ -37,6 +37,6 @@ public class SupportDTO {
     )
     private String password;
 
-     private String imageName;
+    private String imageName;
     private String imagePath;
 }

@@ -12,8 +12,8 @@ public class SupportResponseDTO {
     private String name;
     private String email;
     private String designation;
-    private Boolean availability;
-    private String status;
+    private Boolean status;       
+    private Boolean isAvailable;  
     private String password;
     private String imageName;
     private String imagePath;

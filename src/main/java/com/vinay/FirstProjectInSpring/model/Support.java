@@ -1,7 +1,7 @@
 package com.vinay.FirstProjectInSpring.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import javax.persistence.*;
+import javax.validation.constraints.*;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -26,10 +26,9 @@ public class Support {
     @Length(max = 50, message = "Designation can be up to 50 characters only")
     private String designation;
 
-    private Boolean availability = true;
-
-    @Pattern(regexp = "^(online|offline)$", message = "Status must be either 'online' or 'offline'")
-    private String status = "offline";
+    
+    private Boolean status = false;     
+    private Boolean isAvailable = false;
 
     @NotBlank(message = "Password is required")
     @Pattern(

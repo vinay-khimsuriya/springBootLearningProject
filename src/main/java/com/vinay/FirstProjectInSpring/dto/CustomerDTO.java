@@ -1,11 +1,15 @@
 package com.vinay.FirstProjectInSpring.dto;
 
-import org.hibernate.validator.constraints.Length;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 @Data
 @NoArgsConstructor
@@ -40,7 +44,6 @@ public class CustomerDTO {
     )
     private String password;
 
-    
     private String imageName;
     private String imagePath;
 }

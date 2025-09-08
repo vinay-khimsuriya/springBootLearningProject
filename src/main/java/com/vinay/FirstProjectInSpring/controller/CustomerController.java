@@ -3,7 +3,8 @@ package com.vinay.FirstProjectInSpring.controller;
 import com.vinay.FirstProjectInSpring.dto.*;
 import com.vinay.FirstProjectInSpring.services.CustomerService;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,25 +21,25 @@ public class CustomerController {
 
     // ---------------- Registration ----------------
     @PostMapping("/register")
-public ResponseEntity<ApiResponse<CustomerResponseDTO>> register(
-        @RequestBody @Valid CustomerDTO dto) {
+    public ResponseEntity<ApiResponse<CustomerResponseDTO>> register(
+            @RequestBody @Valid CustomerDTO dto) {
 
-    CustomerResponseDTO savedCustomer = service.register(dto);
+        CustomerResponseDTO savedCustomer = service.register(dto);
 
-    ApiResponse<CustomerResponseDTO> response = new ApiResponse<>(
-            "success",
-            HttpStatus.CREATED.value(),
-            "Customer registered successfully!",
-            1,
-            savedCustomer
-    );
+        ApiResponse<CustomerResponseDTO> response = new ApiResponse<>(
+                "success",
+                HttpStatus.CREATED.value(),
+                "Customer registered successfully!",
+                1,
+                savedCustomer
+        );
 
-    return new ResponseEntity<>(response, HttpStatus.CREATED);
-}
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
 
     // ---------------- Login ----------------
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<JwtResponseDTO>> login(@RequestBody CustomerLoginDTO dto) {
+    public ResponseEntity<ApiResponse<JwtResponseDTO>> login(@RequestBody @Valid CustomerLoginDTO dto) {
         try {
             JwtResponseDTO jwtResponse = service.login(dto);
             ApiResponse<JwtResponseDTO> response = new ApiResponse<>(

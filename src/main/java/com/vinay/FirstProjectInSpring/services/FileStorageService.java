@@ -38,6 +38,32 @@ public class FileStorageService {
         return Files.readAllBytes(filePath);
     }
 
-    
-    public static record FileInfo(String fileName, String filePath) {}
+    // Replace the record with a regular class for Java 11 compatibility
+    public static class FileInfo {
+        private String fileName;
+        private String filePath;
+
+        public FileInfo(String fileName, String filePath) {
+            this.fileName = fileName;
+            this.filePath = filePath;
+        }
+
+        // Getters
+        public String getFileName() {
+            return fileName;
+        }
+
+        public String getFilePath() {
+            return filePath;
+        }
+
+        // Setters (optional, if needed)
+        public void setFileName(String fileName) {
+            this.fileName = fileName;
+        }
+
+        public void setFilePath(String filePath) {
+            this.filePath = filePath;
+        }
+    }
 }

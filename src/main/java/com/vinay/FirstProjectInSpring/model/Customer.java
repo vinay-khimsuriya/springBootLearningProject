@@ -1,7 +1,7 @@
 package com.vinay.FirstProjectInSpring.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import javax.persistence.*;
+import javax.validation.constraints.*;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -37,7 +37,7 @@ public class Customer {
     private Integer age;
 
     @NotBlank(message = "Sex is required")
-    @Pattern(regexp = "^(Male|Female|Other)$", message = "Sex must be Male, Female, or Other")
+    @Pattern(regexp = "^(?i)(Male|Female|Other)$", message = "Sex must be Male, Female, or Other")
     private String sex;
 
     @NotBlank(message = "Password is required")
