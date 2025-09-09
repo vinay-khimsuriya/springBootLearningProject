@@ -114,23 +114,21 @@ public class SupportService {
     }
 
     // ---------------- Fetch Available Supports ----------------
-@Transactional(readOnly = true)
-public List<SupportResponseDTO> getAvailableSupports() {
-    return supportRepository.findByStatusTrueAndIsAvailableTrue()
-            .stream()
-            .map(s -> new SupportResponseDTO(
-                    s.getId(),
-                    s.getName(),
-                    s.getEmail(),
-                    s.getDesignation(),
-                    s.getStatus(),
-                    s.getIsAvailable(),
-                    null,
-                    s.getImageName(),
-                    s.getImagePath()
-            ))
-            .collect(Collectors.toList());
-    
-
-}
+    @Transactional(readOnly = true)
+    public List<SupportResponseDTO> getAvailableSupports() {
+        return supportRepository.findByStatusTrueAndIsAvailableTrue()
+                .stream()
+                .map(s -> new SupportResponseDTO(
+                        s.getId(),
+                        s.getName(),
+                        s.getEmail(),
+                        s.getDesignation(),
+                        s.getStatus(),
+                        s.getIsAvailable(),
+                        null,
+                        s.getImageName(),
+                        s.getImagePath()
+                ))
+                .collect(Collectors.toList());
+    }
 }

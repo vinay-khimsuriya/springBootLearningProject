@@ -1,16 +1,14 @@
-
 package com.vinay.FirstProjectInSpring.controller;
 
 import com.vinay.FirstProjectInSpring.dto.*;
 import com.vinay.FirstProjectInSpring.services.SupportService;
-
-import java.util.List;
-
-import javax.validation.Valid;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/support")
@@ -53,10 +51,18 @@ public class SupportController {
         return ResponseEntity.ok("Availability updated to " + available);
     }
 
-    // Get all available supports
+    // Get all available supports (list)
     @GetMapping("/available")
     public List<SupportResponseDTO> getAvailableSupports() {
         return service.getAvailableSupports();
     }
-}
 
+    // Get only count of available supports
+    @GetMapping("/available/count")
+    public ResponseEntity<?> getAvailableSupportCount() {
+        int count = service.getAvailableSupports().size();
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("count", count);
+        return ResponseEntity.ok(response);
+    }
+}
